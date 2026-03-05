@@ -1,0 +1,411 @@
+<style type="text/css">
+    iframe {
+    	    background-color:#808080;
+			border-radius:25px;
+            }
+		h1{
+			color: #F7913D;
+			font-weight:normal;
+			font:60px Orator Std;
+			text-align:center;
+            height:10px;
+			}		
+       h5{
+			color: #383838;
+			font-weight:normal;
+			font:40px Orator Std;
+			text-align:center;
+            height:0px;
+			}				
+		t2{
+			color: #F7913D;
+			font-weight:normal;
+			font:30px Orator Std;
+            font-size:2vw;
+			text-align:center;
+			vertical-align: middle;
+		    }
+        t3{
+			color: #F7913D;
+			font-family: "din-condensed-web", 'Ropa Sans';
+			font-weight:normal;
+			font:22px Orator Std;
+			}
+        t4{
+			color: #FFFFFF;
+			}
+
+		body{
+		    color: #000000;
+	    	font-weight:normal;
+		    font:15px arial;
+	    	font-style:bold;
+		    }
+		a.menu:link{
+			color: #F7913D;
+			font-weight:normal;
+			font:30px arial;
+			font-size:100%;
+			text-align:center;
+			text-decoration:none;
+			transition: font-size 0.2s, color 0.2s, font-weight 0.2s;
+            }
+		a.menu:visited{
+			color: #F7913D;
+			font-weight:normal;
+			font:30px arial;
+			font-size:100%;
+			text-align:center;
+			text-decoration:none;
+			transition: font-size 0.2s, color 0.2s, font-weight 0.2s;
+            }
+		a.menu:hover{
+			color:#FFFFFF;
+			font-weight:Bold;
+			font:30px arial;
+			font-size:100%;
+			text-align:center;
+			text-decoration:none;
+		    }
+		a.menu:active{
+			color:#FFFFFF;
+			font-weight:Bold;
+			font:30px arial;
+			font-size:100%;
+			text-align:center;
+			text-decoration:none;
+			animation:linkhover 0.5s;
+            }
+
+        .dropbtn {
+            background-color: rgba(0,0,0,0);
+            border: none;
+			color: #F7913D;
+			font-weight:normal;
+			font:30px arial;
+			font-size:100%;
+			text-decoration:none;
+			transition: font-size 0.2s, color 0.2s, font-weight 0.2s;
+            cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    z-index: 1;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin: 0px 0px 0px -14px;
+    border-style:none solid none solid;
+	border-width:2px;
+	border-color: #F7913D;
+    color: #F7913D;
+    background-color: rgba(128, 128, 128, 0.6 );
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    padding: 5px 6px;
+    text-decoration: none;
+    display: block;
+    color: #F7913D;
+	font-weight:normal;
+	font:25px arial;
+    font-size:2vw;
+	text-decoration:none;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover 	{
+	font-weight:Bold;
+	font:25px arial;
+                font-size:2vw;
+	text-align:center;
+	text-decoration:none;
+    animation:linkhover 0.5s;
+}	
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+    animation:Fadein 0.5s;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    color:#FFFFFF;
+	font-weight:Bold;
+	font:25px arial;
+                font-size:2vw;
+			font-size:100%;
+			text-align:center;
+			text-decoration:none;
+}	
+
+		a.dlbutton:link{
+			background-color:#33CCFF;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal; 
+			color:#FFFFFF;
+			margin: 20px;
+			padding: 15px;
+			padding-left:20%;
+			padding-right:20%;
+			font:150% arial black;
+			font-style:bold;
+			text-align:Right;
+			text-decoration:none;
+			transition: color 0.2s, font-weight 0.2s;
+			}
+		a.dlbutton:visited{
+			background-color:#33CCFF;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal; 
+			color:#FFFFFF;
+			margin: 20px;
+			font:25px arial black;
+			font-style:bold;
+			}
+		a.dlbutton:hover{
+			background-color:#33CCFF;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal; 
+			color:#FFFFFF;
+			margin: 20px;
+			font-style:bold;
+			}
+		a.dlbutton:active{
+			background-color:#33CCFF;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal; 
+			color:#248FB2;
+			margin: 20px;
+			font-style:bold;
+			}
+		a.verbutton:link{
+			background-color:#E64848;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal; 
+			color:#FFFFFF;
+			margin: 20px;
+			padding: 15px;
+			padding-left:10%;
+			padding-right:10%;
+			font:120% arial black;
+			font-style:bold;
+			text-align:Right;
+			text-decoration:none;
+			-webkit-transition: color 0.2s, font-weight 0.2s;
+			}
+		a.verbutton:visited{
+			background-color:#E64848;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal;
+			color:#FFFFFF;
+			margin: 20px;
+			font:25px arial black;
+			font-style:bold;
+			}
+		a.verbutton:hover{
+			background-color:#E64848;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal;
+			color:#FFFFFF;
+			margin: 20px;
+			font-style:bold;
+			}
+		a.verbutton:active{
+			background-color:#E64848;
+			border-radius: 15px 15px 15px 15px;
+			font-weight:normal;
+			color:#248FB2;
+			margin: 20px;
+			font-style:bold;
+			}
+		h2{
+			font-weight:normal;
+			font:25px arial black;
+			font-style:bold;
+			text-align:center;
+			}
+		h3{
+			color: #F2F2F2;
+			font-weight:normal;
+			font:35px arial black;
+			font-style:bold;
+			text-align:center;
+			}
+        div.hoverimage img {
+            height: 200px;
+            width: 200px;
+            transition: height 0.5s, width 0.5s;
+            }
+        div.hoverimage img:hover {
+            height: 300px;
+            width: 300px;
+            }
+        div.gallery{
+	        background-color:#808080;
+			margin: 20px;
+			padding: 15px;
+			border-radius:25px;
+            } 
+        div.squares{
+	        background-color:#808080;
+			margin: 20px;
+			padding: 15px;
+			border-radius:25px;
+            } 
+		div.squares img {
+  			width: 90%;
+    		}
+        div.squares2{
+			background-color:#D8D8D8;
+			margin: 20px;
+			padding: 15px;
+			border-radius:25px;
+            } 
+		div.squares2 img {
+  			width: 90%;
+    		}   
+        div.righttext{
+	        float: right;
+        	padding: 15px;
+        	width: 95%;
+            }
+        div.lefttext{
+	        float: left;
+	        padding: 15px;
+	        width: 90%;
+            }
+        div.fulltext{
+        	margin: 20px;
+        	padding: 15px;
+        	border-radius:25px;
+            }
+        codetext{
+	        font:12px Lucida Console;
+        	color:#FFFFCC;
+        	background-color:#474747;
+        	padding: 10px;
+        	border-radius:15px;
+            }
+        div.codebox{
+        	font:12px Lucida Console;
+        	width:85%;
+        	color:#FFFFCC;
+        	background-color:#474747;
+        	margin: 20px;
+        	padding: 15px;
+        	border-radius:15px;
+            }
+        img{
+        	border-radius:25px;
+           }
+
+		input{
+			background-color:D8D8D8;
+			border-style:solid;
+			border-width:4px;
+			border-color:545454;
+            border-radius:10px;
+            padding-left:10;
+	        padding-right:10;
+	        padding-top:10;
+        	padding-bottom:10;
+            width:50%;
+            float:center;
+            margin: 4px 0px 0px 25%;
+            }
+        textarea{
+			background-color:D8D8D8;
+			border-style:solid;
+			border-width:4px;
+			border-color:545454;
+            border-radius:10px;
+            padding-left:5;
+	        padding-right:5;
+	        padding-top:5;
+        	padding-bottom:5;
+        	width:50%;
+            height:30%;
+            float:none;
+            margin: 15px 0px 0px 25%;
+            }
+
+        #container{
+            width: 100%;
+            height:100%;
+            overflow: hidden;
+}
+
+  /* Parallax base styles
+  --------------------------------------------- */
+
+.parallax {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.parallax__layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.parallax__layer--base {
+  transform: translateZ(0);
+}
+.parallax__layer--back {
+  position: fixed;
+  transform: translateZ(-1px) scale(0.7);
+}
+  body {
+    margin:0;
+    padding:0;
+  }
+  .title {
+    position: absolute;
+    left: 95%;
+    top: 150%;
+    transform: translate(-50%, -50%);
+  }
+/* Keyframes*/
+
+@keyframes Fadein {
+    to	 {opacity:1;}
+    from {opacity:0;}
+}
+@keyframes linkhover {
+    0% 	     {color:#F7913D;}
+	100% 	 {color:#FFFFFF;}
+}
+
+
+/* Page Transition*/
+@keyframes fadeInUp {
+    0% {opacity:0; transform: translate3d(0, 100%, 0);}
+    100% {opacity:1; transform: none;}
+}
+@keyframes fadeInRight {
+    0% {opacity:0; transform: translate3d(100%, 0, 0);}
+    100% {opacity:1; transform: none;}
+}
+/*Page anims*/
+.m-scene .scene-element {
+    animation-duration: 1s;
+    transition-timing-function: ease-out;
+    animation-fill-mode: both;
+}
+.m-scene .scene-element--fadeinup {animation-name:fadeInUp}
+.m-scene .scene-element--fadeinright {animation-name:fadeInRight}
+.m-scene.is-exiting .scene_element {
+    -webkit-animation-direction: alternate-reverse;
+    animation-direction: alternate-reverse; 
+}
+</style>

@@ -1,0 +1,204 @@
+<html>
+<link rel="stylesheet" type="text/css" href="css/format.css">
+<style>
+    body {
+		background-image:url('img/UI/BG.svg');
+        background-size:  100%;
+        background-color: 545454;
+    }
+</style>
+<head>
+	<link rel="icon" type="image/png" href="favcion.ico">
+    <script src="https://use.typekit.net/uld7pgs.js"></script>
+    <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
+	</head>
+<body>
+  <div class="parallax">
+    <div class="parallax__layer parallax__layer--back">
+      <div class="title"><img src="img/UI/BGtug.png" align="right"></div>
+    </div>
+	    <div class="parallax__layer parallax__layer--base">
+    <div id="main" class="m-scene">
+        <table align="center">
+            <td> <h1> AUGUST LOOLAM </h1> <h5>Character TD</h5></td>
+        </table>
+        <table align="center">
+            <tr width="auto" align="center">
+                <td width="auto">
+                <td> <t2> <a class="menu" href="index.html"> REEL </a> </t2> </td>
+                <td> <t2> | </t2> </td>
+                <td> <t2> <a class="menu" href="resume.html"> RESUME </a> </t2> </td>
+                <td> <t2> | </t2> </td>
+                <td> <t2> <a class="menu" href="fnat.html"> FINE ART </a> </t2> </td>
+                <td> <t2> | </t2> </td>
+                <td> <t2> <a class="menu" href="rigging.html"> RIGGING </a> </t2> </td>
+                <td> <t2> | </t2> </td>
+                <td>
+                    <t2>
+                        <div class="dropdown">
+                            <button class="dropbtn">TOOLS</button>
+                            <div class="dropdown-content">
+                                <a href="IFM.html">IFM</a>
+                                <a href="revtools.html">REVTOOLS</a>
+                            </div>
+						</div>
+                    </t2>
+                </td>
+                <td> <t2> | </t2> </td>
+                <td> <t2> <a class="menu" href="links.html"> CONTACT </a> </t2> </td>
+                </tr>
+        </table>
+        <div class="scene-element scene-element--fadeinright">
+            <div class="squares" float="center">
+                <h3> Rigging </h3>
+            </div>
+            <div class="squares2">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="Lefttext">
+                                <img src="img/RIG/Bikers01.png">
+                                <p> The bikers have a standard biped rig with combination blendshape and bone driven face controls. The bikers share a skeleton and facial controls, the rig has a character selection dropdown menu to switch between them, as well as a helmet on/off switch. </p>
+                                <p>The heads of the bikers also have a resolution switch. </p>
+                                <br>
+                                <img src="img/RIG/Bikers04.png">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="righttext">
+                                <h2> Bikers </h2>
+                                <p> For my Animation Production class we had 12 weeks to make a short film. I had the idea of two bikers racing along a track. </p>
+                                <p> After I had an idea of what I wanted the bikers to be I modeled them and then began to rig them. </p>
+                                <p> I created bones around the face and then used those bones to create blendshapes. </p><br>
+                                <img src="img/RIG/Bikers02.png">
+                                <img src="img/RIG/Bikers03.png">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br><br><br><br><br><br>
+            <div class="squares2">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="lefttext">
+                                <h2> Scratch</h2>
+                                <p>Scratch was commissioned by a friend of mine, he created the concept sketch and tasked me with figuring out how to make the character work in 3D.</p>
+                                <img src="img/RIG/Scratch02.png">
+                                <iframe src="scratch.html" width="100%" height="405"></iframe>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="righttext">
+                                <img src="img/RIG/Scratch01.png">
+                                <p>Scratch is a paper ball, to emulate this in Maya I simulated a plane falling into a depression. Once we settled on one we liked I sculped out a mouth and modeled the limbs. </p>
+                                <p>To preserve the effect of the charatcer being made of paper I created a series of small joints for the limbs and bound them to a spline curve rather than a ikRPsolver.</p>
+                            </div>
+                        </td>
+                   </tr>
+                </table>
+            </div>
+            <br><br><br><br><br><br>
+            <div class="squares2">
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <div class="Lefttext">
+                                <img src="img/RIG/Cubey01.png">
+                                <p>The eyes are meant to be a computer screen to create this effect I created a layered texture with layers for each eye and their eyelids respectively. The eye layers consist of a single radial ramp. They are driven by their UV position data which is plugged into a curve to allow the UV coodinates to be animated and keyed. while the ramp positon data is used to control dialation. </p>
+                                <p> &nbsp; &nbsp; &nbsp; The ramps are then linked to a lambert that can then send color data to a custom attibute on the rig to change the eye colors. The pixel effect is created with a standard maya grid texture on the layered texture node. </p>
+                                <img src="img/RIG/Cubey03.png">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="righttext">
+                                <h2> Cubey </h2>
+                                <p>Cubey is an old concept of mine dating back to early 2012 that I have recently reinterpreted and redeisgned.</p>
+                                <p>The legs employ the use of IKSpring solvers. The eyes however use an animated texture system I developed for this model. </p>
+                                <img src="img/RIG/Cubey02.png">
+                                <iframe src="cubey.html" width="100%" height="405"></iframe>
+                            </div>
+                        </td> 
+                    </tr>
+                </table>
+            </div>
+            <br><br><br><br><br><br>
+            <div class="squares2">
+                <table>
+                    <tr>
+                        <td>
+                        <div class="lefttext">
+                            <h2> Dweeb </h2>
+                            <p> Dweeb is a character from a short film my rigging professor worked on. He gave us the mesh and assigned us the task of rigging it.</p>
+                            I created an expression map that displaced the UV data of the fron face of the head to create eye expressions.
+                        </div>
+                        </td>
+                        <td><div class="righttext"><img src="img/RIG/dweeb01.png"></div></td>
+					</tr>
+                 </table>
+                </div>
+             <div class="squares2">
+                 <table>
+                     <tr>
+                         <td><div class="lefttext"><img src="img/RIG/Assler.png"></div></td>
+                         <td>
+                                <div class="righttext">
+                                    <h2> The ALSER </h2>
+                                    During my time working on Aperture Tag, I was tasked with desigining, modeling and animating a power generator device for a room in the game.
+                                </div>
+                        </td>
+                    </tr>
+                 </table>
+            </div>
+            <br><br><br><br><br><br>
+            <div class="squares2">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="lefttext">
+                                <h2> Nano </h2>
+                                Nano is an older character of mine that I designed for the Source video game engine. Since source is an older game engine. To be able to control an animate the thrusters on nano I created a series of flex rigs and engine specific preset files.
+                            </div>
+                        </td>
+                        <td><div class="righttext"><img src="img/RIG/nano.png"></div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+    <table width="50%" align="center">
+        <tr align="center">
+            <td> <a href="index.html">REEL</a> </td>
+            <td> | </td>
+            <td> <a href="resume.html">RESUME</a> </td>
+            <td> | </td>
+            <td> <a href="fnat.html">FINE ART</a> </td>
+            <td> | </td>
+            <td> <a href="rigging.html">RIGGING</a> </td>
+            <td> | </td>
+            <td> <a href="tools.html">TOOLS</a> </td>
+            <td> | </td>
+            <td> <a href="links.html">CONTACT</a> </td>
+        </tr>
+    </table>
+            <p align="right">
+                <t4>
+                    516-404-9302  &nbsp; &nbsp;
+                    <br>
+                    aug550@gmail.com  &nbsp; &nbsp; &nbsp;
+                </t4>
+            </p><br>
+</div>
+	</div>
+            <br><br>
+	</div>
+	</div>
+</body>
+</html>
+
+<!--JavaScripts-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/prefixfree.min.js"></script>
+<script src="js/jquery.smoothState.js"></script>
+<script src="js/functions.js"></script>

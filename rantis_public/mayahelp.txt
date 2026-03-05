@@ -1,0 +1,653 @@
+blendTools -h;
+//  // 
+// Maya Plugin blendTools Contains The Following: // 
+//  // 
+// Commands: // 
+//  // 
+//  * applyFalloffArray:  // 
+//  * applyFalloffArrayUndo:  // 
+//  * blendPerVert: this command sets per-vertex based blend target weights.  This is // 
+// possible using mel but can be slow when trying to additively set // 
+// weights (as a setAttr then a getAttr need to be run per vert) and // 
+// do crossfades. // 
+//  // 
+//  * blendTools: Displays information about and what's inside of the blendTools plugin. // 
+//  * getFalloffArray:  // 
+//  // 
+
+
+
+vsMaster -h;
+//  // 
+// Maya Plugin vsMaster Contains The Following: // 
+//  // 
+// Commands: // 
+//  // 
+//  * steamId: When called with no arguments, this command returns the current user's steam id as a string if possible // 
+// NOTE: Steam must be running for this command to work. // 
+//       If you try to quit steam after running this but haven't quit maya, // 
+//       steam will refuse to quit displaying "Waiting for <app> to Exit". // 
+//       Simply quit Maya in that case to be able to quit steam. // 
+//  // 
+//  * vsAppFactory: Returns the Valve Application Factory Handle // 
+//  * vsComboOp: Creates and manipulates vstComboOp nodes // 
+//  * vsDme: Creates and manipulates vsDme nodes.  Dme nodes are pipeline data nodes // 
+//  * vsMaster: Displays information about and what's inside of the vsMaster plugin. // 
+//  * vsVGuiWindow: Attaches and detaches vgui windows to and from previously configured Maya scripted panels // 
+//  * vsVProf: Controls Valve profiling in Maya // 
+//  * vsVmt: Creates vsVmt nodes // 
+//  * vsVmtToTex: Creates and manipulates vstVmtToTex nodes // 
+//  // 
+// Dependency Nodes: // 
+//  // 
+//  * vsComboOp: DmeCombinationOperator Node in Maya // 
+//  * vsDme: Generic Dme Node in Maya // 
+//  // 
+// Image Files: // 
+//  // 
+//  * valveVtf: Add Valve VTF support to Maya // 
+//  // 
+// Locator Nodes: // 
+//  // 
+//  * vsVmtToTexBehavior: Manages drag and dropping vsVmtToTex nodes and file (fileTexture) nodes // 
+//  // 
+// Shader Nodes: // 
+//  // 
+//  * vsVmtToTex: Converts a Valve material path to a texture map filename. // 
+//  // 
+// Transform Nodes: // 
+//  // 
+//  * vsDmeGroup: Generic Dme Group Node in Maya // 
+//  // 
+
+
+
+vsSkinner -h;
+//  // 
+// vsSkinner // 
+//  // 
+// DESCRIPTION: // 
+//  // 
+// Creates and manipulates vsSkinner nodes // 
+//  // 
+// SWITCHES: // 
+//  // 
+// General Switches: // 
+//  // 
+// -h -help // 
+//  * Prints usage information // 
+//  // 
+// Create Switches: // 
+//  // 
+// -c -Create // 
+//  * Creates a new vsSkinner node // 
+// -n -name <String> // 
+//  * Names the created vsSkinner node the specified name // 
+// -s -strength <Double> // 
+//  * Specifies the strength of a created volume, defaults to 1.0 // 
+// -f -falloff <Double> // 
+//  * Specifies the falloff of a created volume, defaults to 1.0 // 
+// -ft -falloffType <String> // 
+//  * Specifies the falloff type of a created volume, defaults to smooth, one of <l>inear, <sm>ooth, <sp>ike, <d>ome.  Only the unambiguous prefex needs to be specified and is case insensitive // 
+// -py -powerY <Double> // 
+//  * Specifies the powerY value of a created volume, defaults to 1.0 (spherical top and bottom) with a range of [0, 1].  0 Flattens the top and bottom. // 
+// -pxz -powerXZ <Double> // 
+//  * Specifies the powerXZ value of a created volume, defaults to 1.0 (spherical sides) with a range of [0, 1].  0 Flattens the sides. // 
+// -dd -drawDensity <Long> // 
+//  * Specifies the drawDensity value of a created volume, defaults to 10 with a range [10, 100]. // 
+// -cjv -createJointVolumes // 
+//  * Creates a volume for each selected joint.  If any mesh vertices are selected, the volume will be placed at the center of the bounding box of the meshes and scale such that all vertices are within the volume // 
+//  // 
+// Edit Switches: // 
+//  // 
+// -cv -createVolume // 
+//  * Creates a new volume for the specified vsSkinner joints.  If a joint has multiple children, a volume is created and oriented for each child // 
+// -r -recursive // 
+//  * When -createVolume is called, if -recursive is specified then volumes are created for all of the descendants of the specified joints // 
+// -am -attachMesh // 
+//  * Attaches the specified meshes to the vsSkinner node // 
+// -dm -detachMesh // 
+//  * Detaches the specified meshes from the vsSkinner node // 
+// -ms -mayaSkin // 
+//  * Converts the specified meshes to Maya skinning.  NOTE: This is a one way conversion // 
+// -mi -maxInfluences <Long> // 
+//  * Specify the number of influence objects (joints) which can influence a specific vertex.  Defaults to 3.  This command can be used with -create or -mayaSkin.  Note that the number of influence objects can be changed via the .maxInfluences attribute on the vsSkinner node // 
+// -fv -findVolumesFromVertices // 
+//  * Returns a list of vsSkinnerVol nodes that are influencing the specified vertices // 
+// -sc -setColor // 
+//  * When creating a vsSkinner joint this forces the color of the joints to be reset.  Normally the colors are only set if colors aren't already set on the joints // 
+
+
+
+vstSmdIO -h;
+// 
+ vsSmdIO - Valve Source Smd Input/Output
+
+ Command to export and import data to and from Valve SMD (VRT) files.
+  The Valve SMD File Translator is merely a front end to this command which
+ is always used to do the actual work.
+
+ Command Line Switches:
+
+ -h    | -help  . . . . . . . Print this information
+
+ -f    | -filename  . . . . . On both import and export, use the specified filename
+
+ -i    | -import  . . . . . . Import an SMD file from the file specified by -filename
+ -o    | -origin <x> <y> <z>  When importing, translate the resulting model by the specified position
+ -a    | -angles <x> <y> <z>  When importing, rotate the resulting model by the specified degree angles
+ -vmf  | -valveMapFile . . .  Tell vstSmdIO that the import is to go along with a Valve Map file so the orientations are different
+ -t    | -textureArchive <$>  Archive all file textures into the specified directory
+ -is   | -importSkeleton <?>  Determines whether the skeleton will be imported.  By default only the model mesh is imported
+ -v2t  | -vsVmtToTex <!>  . . By default, vsVmtToTex nodes will be used to assign materials if possible.  This introduces a
+                              dependency on the valveSource tools.  Specify -v2t false to turn off and only create maya nodes
+ -it   | -importType  . . . . What sort of data to import.  One of:
+                              reference ( Model )              r, m
+                              animation ( Skeletal Animation ) a, s
+                              NOTE: Defaults to model.  Unlike export type, only 1 import type can be specified
+ -eh   | -edgeHardness  . . . Sets the edge hardness on the model.  Note, this is a slow operation
+
+ -e    | -export  . . . . . . Export Maya data to the DMX file specified by -filename
+ -et   | -exportType <?>  . . What sort of data to export.  One of:
+                              reference   ( Model )              r, m
+                              physbox     ( Physics Model )      p
+                              animation   ( Skeletal Animation ) a, s
+                              vta         ( Vertex Animation )   v
+                              vertexCache ( Animated Vertices )  vc
+                              NOTE: vc imply -bc
+                              NOTE: Only the shortest unique sequence of characters to
+                                    uniquely identify the type is necessary. e.g. -et a.
+                                    The list of acceptable characters is listed at the end of each type.
+                                    To get both a model and its animation in the same smd, specify
+                                    -exportType twice, i.e. -et m -et a
+ -fs   | -frameStart <#> . . Specify the start time for animation export.  If not specified, the current active
+                             animation start time for the scene will be used
+ -fe   | -frameEnd <#> . . . Specify the end range for animation export.  If not specified, the current active
+                             animation end time for the scene will be used
+ -fi   | -frameIncrement <#> Specify the time increment for animation export.  If not specified, the current
+                             active animation increment time for the scene will be used
+ -sl   | -selection  . . . . Only export selected objects in the scene
+ -up   | -upAxis <?> . . . . Export the data from Maya as if it oriented with the specified up axis,
+                             one of X, Y or Z.  If not specified the default will be Y.  No matter what
+                             the Maya up axis is set to, if you do -upAxis ? there needs to be a corresponding:
+
+                             $upaxis ?
+
+                             command in the .qc file.  Where ? is X, Y or Z.  Note that case is unimportant in
+                             this tool and in .qc, i.e. x, y or z work
+ -ds   | -doubleSided  . . . If specified, all meshes in the scene which have .doubleSided true will be output
+                             twice.  NOTE: Use with caution as .doubleSided defaults to true on Maya meshes
+ -w    | -world  . . . . . . Collapse the bone hierarchy into world space
+ -rp   | -removePrefix <$> . Removes the specified pre-existing node prefix before adding any specified node
+                             prefix via -np on import or export
+ -np   | -nodePrefix <$> . . Prefix each node with the specified string.  By default the Maya node name is
+                             used directly in the smd file.  If, for compatibility reasons, each node needs
+                             a prefix this command switch can be used, e.g. -nodePrefix "ValveBiped."
+                             This works on import and export and occurs after any -rp command -ei   | -exportInvisible  . Normally invisible, intermediate & template nodes are ignored, specify this flag
+                             to cause them to be exported as well.
+ -rm   | -relativeMaterials  Use relative material paths.  Note that this requires a version of studiomdl
+                             that came out of Valve main after June 14, 2006.  Use of this flag
+                             makes $cdmaterials qc commands unnecessary -pp   | -prettyPrint <!>  . By default SMD's will be pretty printed.  Specify -prettyPrint false to
+                             revert back to old style
+ -qci  | -qciFile <$>  . . . Export extra data such as attachments, etc... into the specified qci file
+                             If -exportType is model then attachments, etc.. are output to the qci
+                             If -exportType is vta then flex names, etc.. are output to the qci
+ -bc   | -bindCurrent  . . . Use the current pose of the skeleton and mesh as the bind pose
+ -sam  | -shaderAsMaterial . Use the name of the surface shader node as the material name
+
+ Automation Options:
+
+ -m    | -materials  . . . . Do all of -materialSrc, -materialVtf, -materialVmt
+ -src  | -materialSrc  . . . Copy any textures used on the exported model
+ -vtf  | -materialVtf  . . . Run vtex on the textures to convert them to vtf files
+ -vmt  | -materialVmt  . . . Output a simple vmt file (VertexLitGeneric with the texture as $basetexture) for each texture mapped material used
+ -qc   | -qcCreate . . . . . Create a simple qc file for compiling the model
+ -qcl  | -qcCollapseBones  . Output $collapsebones command in qc
+ -qce  | -qcCenterBonesOnVerts Output $centerbonesonverts command in qc
+ -qsb  | -qcSkipBonesInBBox  Output $skipbonesinbbox command in qc
+
+ NOTE: If any automation options are set the result returned from the command will
+       be a string array of pairs of strings, type and the pathname.
+
+ // 
+
+ 
+ 
+ vstUiHook -h;
+//  // 
+//  Valve Source Tools (vst) UI Hook Command // 
+//  // 
+//   The vstUiHook command is used to configure UI hooks. // 
+//  // 
+//  SWITCHES: // 
+//  // 
+//   -h   | -help                         - Print this information // 
+//   -en  | -enable <bool>                - Enable or disable UI hooking // 
+//   -eq  | -enabled-query                - Query whether UI hooking is enabled or disabled // 
+//   -sp  | -set-property <name> <value>  - Set UI hooking property // 
+//   -gp  | -get-property <name>          - Query UI hooking property // 
+//   -ex  | -execute <cmdstring>          - Execute an arbitrary command string // 
+//  // 
+//  EXAMPLES: // 
+//  // 
+//  vstUiHook -sp "cameraname" "persp"; // 
+//  // 
+
+
+
+vstUtils -h;
+//  // 
+// Maya Plugin vstUtils Contains The Following: // 
+//  // 
+// Commands: // 
+//  // 
+//  * vstAim: Creates and manipulates vstAim nodes // 
+//  * vstAttachment: Creates vstAttachment nodes which are nodes that act as attachments in the game // 
+//  * vstBlendShapeUtils: Utilities to work with blendShapes. // 
+//  // 
+// Only one command may be executed each invocation.  Commands are: // 
+//  // 
+//  -rz | -removeZeros // 
+//  -mr | -makeRelative // 
+//  -ma | -makeAbsolute // 
+//  -ld | -listDeltas // 
+//  -gd | -getDeltas // 
+//  -zv | -zeroVerts // 
+//  -sd | -splitDeltas // 
+//  -ud | -unifyDeltas // 
+//  // 
+//  * vstChecker: Checks Maya scenes for potential problems when converting those scenes to smd or dmx // 
+//  * vstConstraint: Creates and manipulates vst<TYPE>Constraint nodes // 
+//  * vstEyeball: Creates and manipulates vstEyeball nodes. // 
+//  * vstHelperBone: Creates and manipulates vstHelperBone nodes. // 
+//  * vstInfo: Creates and manipulates vstInfo nodes // 
+//  * vstRebuildBlendShape:  // 
+//  SYNOPSIS: vstRebuildBlendShape < mesh > // 
+//  // 
+//  HELP: // 
+//  // 
+// Takes an existing mesh with one or more blendShapes in the history and collapses it into a single mesh with one blendShape node.Simply select or specify the mesh to be rebuilt // 
+//  // 
+//  * vstSelectCoincidentFaces: Selects all coincident faces in the specified meshes. // 
+// Simply select the meshes or mesh faces you want to check for coincidence and run the command. // 
+// Select as many as required on as many different meshes as required and run the command. // 
+// Note that only faces on the same meshes are checked against each other for coincidence. // 
+//  // 
+//  * vstSendmail: Send an email message from mel // 
+//  * vstSetEdgeHardness: Sets the edge hardness & softness of the specified mesh based on the existing normals. // 
+// NOTE: This command can be quite slow (30 secs is not unusual) // 
+// NOTE: THIS COMMAND IS NOT UNDOABLE! // 
+//  // 
+//  * vstShrinkWrap: Shrink wraps mesh A to mesh B. // 
+//  // 
+// A ray is cast from each vertex of mesh A along the vertex normal in both // 
+// directions.  If the ray intersects any of the other specified meshes, the // 
+// vertex of mesh A is translated along the direction of the ray by the distance // 
+// of the intersection weighted by an optional vertex weight mask painted on mesh A. // 
+//  // 
+// SYNTAX // 
+//  // 
+//   Shrink mesh 'foo' onto mesh 'bar' using doubleArray attribute foo.vs_traceShapeMask // 
+//   as a vertex weight mask to control which vertices are displaced // 
+//  // 
+// 	vstShrinkWrap -vm "vs_traceShapeMask" foo bar // 
+//  // 
+//   Shrink mesh 'A' onto meshes 'B', 'C' & 'D' (which ever has the closest intersection) // 
+//   using doubleArray attribute A.vs_traceShapeMask as a vertex weight mask to control // 
+//   which vertices are displacex // 
+//  // 
+// 	vstShrinkWrap -vm "vs_traceShapeMask" A B C D // 
+//  // 
+//  // 
+//  * vstSplitMorph: Splits the specified blendShape target into <target>_left & <target>_right based on the specified vertex map name or plane // 
+//  * vstTwist: Creates and manipulates vstTwist nodes // 
+//  * vstUVMesh: Creates and manipulates vstUVMesh nodes.  vstUVMesh nodes are nodes which takes the UV set from a specified mesh and creates a new mesh which is a representation of the texture coordinates of the specified mesh.  The mesh can be manipulated and edits are applied to the texture coordinates of the originally specified mesh. // 
+//  * vstUtils: Displays information about and what's inside of the vstUtils plugin. // 
+//  * vstWeld: Creates and manipulates vstWeld nodes // 
+//  * zprint: Export the specified geometry to a file suitable for printing with ZPrint // 
+//  // 
+// Dependency Nodes: // 
+//  // 
+//  * vstAim: An aim constraint node which orients up based on what the user specified up vector is doing in the parent of the node being aimed.  This node is implemented in the Source engine as an <aimconstraint> helper bone. // 
+//  * vstAimConstraint: Aim constraint, slave orientation is adjusted to look point toward target position // 
+//  * vstEulerFix: Tries to fix Euler flips through various means. // 
+//  // 
+//  * vstIkConstraint: Inverse kinematics constraint, position and orientation are adjusted to reach a target // 
+//  * vstOrientConstraint: Orient constraint, slave orientation matches target orientation // 
+//  * vstParentConstraint: Parent constraint, slave position and orientation are updated to behave as children of the target // 
+//  * vstPointConstraint: Point constraint, slave position matches target position // 
+//  * vstRotateOrder: Changes rotation order // 
+//  * vstRotationConstraint: Rotation constraint, slave orientation is set to the orientation generated from a set of rotations // 
+//  * vstTwist: TODO: Write some docs for vstTwistNode // 
+//  * vstTwistConstraint: Twist constraint, takes a percentage of the rotation around the axis between a child & parent bone // 
+//  * vstUVMesh: Converts a UV set on the specified input mesh to geometry // 
+//  // 
+//  * vstWeld: Constrains a transform to the world space of specific face of a mesh. // 
+// Simply select any number of transforms to weld and then select the mesh // 
+// as the last thing selected or specified and then run the command // 
+//  // 
+//  // 
+// File Translators: // 
+//  // 
+//  * vstZPrintIO: Exports data from maay that can be printed with the zprint printer // 
+//  // 
+// Locator Nodes: // 
+//  // 
+//  * vRigWidget: Rig widget // 
+//  * vstAttachment: Animatable Valve Attachments // 
+//  * vstEyeball: Valve Model Eyeball Node // 
+//  * vstHelperBone: Valve helper bones // 
+//  // 
+// Transform Nodes: // 
+//  // 
+//  * vstInfo: A transform node which is easily identifiable in a Maya scene.  Valve models need this as their root node. // 
+//  // 
+
+
+
+vsVmfIO -h;
+//  // 
+// vsVmfIO // 
+//  // 
+// DESCRIPTION: // 
+//  // 
+// Imports Valve Map Files (vmf) into Maya... maybe someday export // 
+//  // 
+// SWITCHES: // 
+//  // 
+// General Switches: // 
+//  // 
+// -h -help // 
+//  * Prints this information // 
+//  // 
+// Import Switches: // 
+//  // 
+// -i -Import // 
+//  * Imports a VMF file // 
+// -f -filename <String> // 
+//  * The VMF file to import // 
+// -b -bakeUVs <Boolean> // 
+//  * Bake the UVs into the polygons generated from the brushes, otherwise a projection node is used to apply the texture.  Default is true. // 
+// -it -importTools <Boolean> // 
+//  * Bring in brush sides that have a material of "TOOLS/*". Default is false. // 
+// -id -importDev <Boolean> // 
+//  * Bring in brush sides that have a material of *"DEV/*". Default is false. // 
+// -ib -importBrushes <Boolean> // 
+//  * Bring in brushes. Default is true. // 
+// -il -importLights <Boolean> // 
+//  * Bring in lights. Default is true. // 
+// -im -importModels <Boolean> // 
+//  * Bring in models. Default is true. // 
+// -t -textureArchive <String> // 
+//  * Copy all of the textures to a specified directory and refer to them from there // 
+// -ie -importEntity <String> // 
+//  * Import the specified types of entities.  By default no entities are imported.  NOTE: Models & Lights are treated specially // 
+// -in -instanceModels <Boolean> // 
+//  * When importing models, instance any extra versions of the same model if true.  If false, a new model is created for each one.  Defaults to true. // 
+
+
+
+vsblendeditor -h;
+//  // 
+// vsBlendEditor // 
+//  // 
+// DESCRIPTION: // 
+//  // 
+// Qt Blend Editor! // 
+//  // 
+// SWITCHES: // 
+//  // 
+// General Switches: // 
+//  // 
+// -h -help // 
+//  * Prints usage information // 
+// -o -open // 
+//  * Open a blendShape editor for the current mesh // 
+// -c -cycle <Boolean> // 
+//  * Toggle cycling on & off // 
+// -p -period <Double> // 
+//  * Set the cycling period, min 0.1 sec, max 10.0 sec, def: 1 sec // 
+// -f -frequency <Double> // 
+//  * Set the cycling frequency in updates per second, min 5, max 100, def: 20 / sec // 
+
+
+
+vsDmxIO -h;
+//  // 
+// vsDmxIO // 
+//  // 
+// DESCRIPTION: // 
+//  // 
+//  Imports and exports DMX files to and from Maya // 
+//  // 
+// SWITCHES: // 
+//  // 
+// General Switches: // 
+//  // 
+// -h -help // 
+//  * Print this information // 
+// -f -filename <String> // 
+//  * On both import and export, use the specified filename // 
+// -ac -absoluteCorrectors // 
+//  * Specifies whether deltas are Absolute or Relative. // 
+//  // 
+// Default: Relative // 
+//  // 
+// Normally corrective deltas states, i.e. A_B, are relative in that they've had all dependent deltas // 
+// already subtracted out, i.e. A & B.  Absolute means that A_B is the shape you want to see when // 
+// A & B are shown together.  i.e. A_B does not have anything subtracted from it // 
+//  // 
+// Exporting: When used for export, this flag specifies what the data in Maya currently is // 
+// Importing: When used for import, this flag specifies how the data should show up in Maya // 
+//  // 
+// -kfr -keepFrameRange // 
+//  * By default, the beginning from of animation is shifted to be at time 0 for import & export.  If this option is specified then the frame range will be import and exported as is. // 
+// NOTE: If importing and exporting animation to/from SFM you should be spcifying -keepFrameRange // 
+// NOTE: If -frameOffset is specified then it implies -keepFrameRange is specified in that // 
+//       frame offset is subtracted from the Maya frame range and that is exported. // 
+//  // 
+// -ffov -fixFov <Boolean> // 
+//  * Apply the 1.3 fudge factor to FOVs to/from SFM, Default: True // 
+// -egu -exportGameUnits // 
+//  * Export distances in game units // 
+//  // 
+// exportRelativeTranslation Switches: // 
+//  // 
+// -ert -Export <Distance> <Distance> <Distance> // 
+//  * Specifies a relative translation, overrides -exportRelative // 
+//  // 
+// exportRelativeRotation Switches: // 
+//  // 
+// -err -Export <Angle> <Angle> <Angle> // 
+//  * Specifies a relative rotation, overrides -exportRelative // 
+//  // 
+// exportMaterialPath Switches: // 
+//  // 
+// -emp -Export <String> // 
+//  * Forces a relative path to be pre-pended to absolute material names // 
+//  // 
+// Import Switches: // 
+//  // 
+// -i -Import // 
+//  * Import a DMX file from the file specified by -filename // 
+// -it -importType <String> // 
+//  * What sort of data to import.  One of [ model, animation, transforms ].  Defaults to model.NOTE: Only the shortest unique sequence of characters to uniquely identify the type is necessary. e.g. -it m."transforms" just creates a raw transform for every DME transform in the specified file.Normally it isn't necessary to specify what to import, vsDmxIO guesses correctly in most cases // 
+// -st -setTimeline // 
+//  * If specified, the time slider will be set to match the imported animation // 
+// -rc -returnCreated <Boolean> // 
+//  * Return a list of all of the nodes that are created during the import process.  Defaults to true // 
+// -s -stereo // 
+//  * Import blend shapes with stereo splits for use with vsComboOp // 
+// -eh -edgeHardness // 
+//  * Sets the edge hardness/softness on the model.  This can be a slow operation. // 
+// -bm -bumpMap <Boolean> // 
+//  * Import bump maps on materials that have them.  Default: true // 
+// -za -zeroAnim <Boolean> // 
+//  * If true and if imported animation start/end can be determined, the animation start and end are lined up at Maya's animation start.  Default: false // 
+//  // 
+// Reference Switches: // 
+//  // 
+// -r -Reference // 
+//  * A special mode of import which ignores other options and imports only meshes // 
+//  // 
+// Export Switches: // 
+//  // 
+// -e -Export // 
+//  * Export Maya data to the DMX file specified by -filename // 
+// -et -exportType <String> // 
+//  * What sort of data to export.  One of [ model, skeletalAnimation, physicsModel ].  NOTE: Only the shortest unique sequence of characters to uniquely identify the type is necessary. e.g. -et s.  Defaults to model.  Can be specified multiple times. // 
+// -fs -frameStart <Double> // 
+//  * Specify the start time for animation export.  If not specified, the current active animation start time for the scene will be used // 
+// -fe -frameEnd <Double> // 
+//  * Specify the end range for animation export.  If not specified, the current active animation end time for the scene will be used // 
+// -fi -frameIncrement <Double> // 
+//  * Specify the time increment for animation export.  If not specified, the current active animation increment time for the scene will be used // 
+// -fo -frameOffset <Double> // 
+//  * If specified, the actual Maya frame will have this value added to it on export.  Defaults to 0NOTE: If -frameOffset is specified then it implies -keepFrameRange is specified in that // 
+//       frame offset is subtracted from the Maya frame range and that is exported. // 
+//  // 
+// -sm -scratchMaterial // 
+//  * If just a plain Maya surface shader is assigned without a texture map driving // 
+// the color then a scratch vmt file will be created and those faces will be shaded // 
+// with a solid color // 
+//  // 
+// -an -animationName <String> <String> // 
+//  * Override the animation name for a vstInfo node.  Specify the vstInfo node name first and then the name of the animation second // 
+// -muv -mergeUvs <Boolean> // 
+//  * Merges any non-unique UV coordinates on export.  Default is true.  If false, UVs are exported verbatim // 
+// -mi -makefileObjectId <String> // 
+//  * Specify the DmObjectId for the DmeMakefile that will be created // 
+// -t -triangulate // 
+//  * If true, triangulate any polygonal faces that are not convex, have holes, are starlike or lamina // 
+// -asc -ascii // 
+//  * A shortcut for -outType keyvalues2 // 
+// -bin -binary // 
+//  * A shortcut for -outType binary // 
+// -wm -weightMap // 
+//  * Create a weight map for each delta state on the mesh // 
+// -auv -abortOnBadUVs // 
+//  * If UVs are missing or bad on the model, abort export if this flag is specified and select the bad faces // 
+// -ex -excludeList <String> // 
+//  * A list of nodes to not export // 
+// -ot -outType <String> // 
+//  * Override the output file type where the specified type is one of < keyvalues keyvalues2 keyvalues2_flat binary actbusy commentary vmt vmf mks tex_source1 > // 
+// -sl -selection // 
+//  * Only export selected objects in the scene.  NOTE: If -selection is specified, -exportInvisible is also implied. // 
+// -vst -vstOnly // 
+//  * Only export data under a vstInfo (Valve Source Tools - Info node). // 
+// -ei -exportInvisible // 
+//  * Normally invisible, intermediate & template nodes are ignored, specify this flag to cause them to be exported as well. // 
+// -cm -comboMerge <String> // 
+//  * Merge the first DmeCombinationOperator found in the specified path with the exported data replacing any existing DmeCombination operator // 
+// -er -exportRelative <SelectionItem> // 
+//  * Exports the model or animation as if the specified dag node was the origin // 
+// -ufc -underscoreForCorrectors // 
+//  * By default, all deltas are assumed to be normals deltas and any deltas with a '_' (underscore) in them are changed to a '-' and exported as a normal delta.  If -underscoreForCorrectors is specified (-ufc) then delta's with a _ in them are considered correctors and will not be a visible delta in the resulting dmx file.  Delta's with _'s in the name are considered corrector deltas in dmx. // 
+// -up -upAxis <String> // 
+//  * Specifies the up axis of the exported data. // 
+//  // 
+//    One Of: Y or Z // 
+//  // 
+//    By default, the data is exported with the current Maya up axis (typically Y). // 
+//    Use this to force a specific up axis to be used in the DMX model file. // 
+//    Specify Z to export models compatible with XSI exported SMD's  // 
+//  // 
+// -bc -bindCurrent // 
+//  * Use the current pose as the bind pose when exporting // 
+// -np -nodePrefix <String> // 
+//  * Adds the specified node prefix to all skeletal joints during import and export.  No delimiter is added so if "valveBiped." is desired, then the specified prefix should be "valveBiped." // 
+// -rp -removePrefix <String> // 
+//  * Adds the specified node prefix to all skeletal joints during import and export // 
+// -ap -attachmentPrefix <Boolean> // 
+//  * If true and -nodePrefix is specified, attachment nodes will also receive the attachment prefix.  If false, attachment nodes will never receive the prefix. Default: false // 
+// -fso -faceSetOrder <String> // 
+//  * Specifies the type of face set ordering, "a" or "alphabetical" means alphabteically by shading group name, "f" or "faceId" means by face id as much as possible, default is traditional behavior, no ordering // 
+// -sfm -sfmAnimation // 
+//  * Rearrange root bone animation so it comes in on the top level SFM node.  Do not use for exporting animation for compiling with studiomdl // 
+// -esc -exportShapeChildren // 
+//  * If specified, only children of selected nodes that are shapes are exported, i.e. dag nodes are not recursively exported.  For use with VMF exporter. // 
+
+
+
+
+vsMdlIO -h;
+//  // 
+// vsMdlIO // 
+//  // 
+// DESCRIPTION: // 
+//  // 
+// Import VALVe MDL data // 
+//  // 
+// Import Valve MDL model and animation data // 
+//  // 
+// EXAMPLES: // 
+//  // 
+// Import the root LOD model and skeleton of an MDL without reorienting any bones // 
+//  // 
+// vsMdlIO -i -f "models/player/scout.mdl" -mb true -is true -lod "root"; // 
+//  // 
+// Get a list of all non-delta animations in an MDL: // 
+//  // 
+// string $sAnimList[] = `vsMdlIO -al -f "models/player/scout_animations.mdl"`; // 
+//  // 
+// Get a list of all delta animations in an MDL: // 
+//  // 
+// string $sDeltaAnimList[] = `vsMdlIO -dal -f "models/player/scout_animations.mdl"`; // 
+//  // 
+// Import the specified animation onto a newly created skeleton // 
+//  // 
+// vsMdlIO -ia "@taunt01" -f "models/player/scout_animations.mdl" -is true; // 
+//  // 
+// Import the specified animation onto an existing skeleton // 
+//  // 
+// vsMdlIO -ia "@taunt01" -f "models/player/scout_animations.mdl"; // 
+//  // 
+//  // 
+//  // 
+// SWITCHES: // 
+//  // 
+// General Switches: // 
+//  // 
+// -h -help // 
+//  * Print this information // 
+//  // 
+// Import Switches: // 
+//  // 
+// -i -Import // 
+//  * Import VALVe MDL data from the file specified by -filename // 
+// -r -reference // 
+//  * Reference VALVe MDL data from the file specified by -filename.  Similar to -import except it ignores all other arguments. // 
+// -f -filename <String> // 
+//  * Import VALVe MDL data from the specified filename // 
+// -rc -returnCreated <Boolean> // 
+//  * Specifies whether vsMdlIO should return a list of Maya objects created during import.  Default: true // 
+// -lod -levelOfDetail <String> // 
+//  * Specifies that only the specified lod should be imported (a number) or "root" for the root Lod.  Default: "all" // 
+// -sk -skin <String> // 
+//  * Specifies that only the specified skin should be imported (a number) or "root" for the root skin.  Default: "all" // 
+// -sm -singleMesh <Boolean> // 
+//  * Specifies that all body groups should be merged into a single mesh, Default: false // 
+// -vi -vstInfo <Boolean> // 
+//  * Specifies that the imported model should be grouped under a vstInfo node, Default: true // 
+// -is -importSkeleton <Boolean> // 
+//  * Specifies that the skeleton of the model should be imported, Default: true // 
+// -im -importMesh <Boolean> // 
+//  * Specifies that the mesh of the model should be imported, Default: true // 
+// -es -engineSpace <Boolean> // 
+//  * Specifies that the model should be imported in engine space, otherwise it's oriented according to Maya's up axis, Default: false // 
+// -no -normals <Boolean> // 
+//  * Sets per face, per vertex normals on the model.  Default: true // 
+// -eh -edgeHardness <Boolean> // 
+//  * Sets the edge hardness/softness on the model.  This is a slow operation. Ignored if -normals is false.  Default: false // 
+// -rv -removeValveBiped <Boolean> // 
+//  * Sets whether the prefix ValveBiped_ (case insensitive) is stripped from imported bones.  Default: true // 
+// -s -skinMeshes <Boolean> // 
+//  * Skin the imported meshes to the skeleton.  Default: true // 
+// -mb -motionBuilder <Boolean> // 
+//  * Do not reorient joints back to source (pre-studiomdl).  Only use if preparing a skeleton for motion builder. Default: false // 
+// -al -animationList // 
+//  * Return a list of non-delta animations available in the specified MDL, use instead of -i // 
+// -dal -deltaAnimationList // 
+//  * Return a list of deltas animations available in the specified MDL, use instead of -i // 
+// -ia -importAnimation <String> // 
+//  * Specifies that the specified animation should be imported // 

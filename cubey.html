@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>cubey</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+<style type="text/css">
+html,body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+
+#c {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+</style>
+
+<script type="text/javascript" src="js/webgl-utils.js"></script>
+<script type="text/javascript" src="js/inka3dControlEffectEngine.min.js"></script>
+<script type="text/javascript" src="cubey.js"></script>
+<script type="text/javascript">
+'use strict';
+
+// shortcuts for inka3d modules
+var control = inka3dControl;
+var effect = inka3dEffect;
+var engine = inka3dEngine;
+
+var canvas;
+var gl;
+
+// inka3d renderer
+var renderer;
+
+// render group
+var group;
+
+// scene loader
+var loader;
+
+// scene and scene attributes
+var scene;
+var sceneTime;
+
+// mouse/touch input handler
+var input;
+
+// parameters of user controllable camera
+var cameraTargetX = 7.85742855;
+var cameraTargetY = 17.485199;
+var cameraTargetZ = -8.25802612;
+var cameraRotateX = -0.351480573;
+var cameraRotateY = 0.0314159244;
+var cameraDistance = 194.555573;
+
+// camera projection parameters
+var cameraProjection = new Float32Array([2.0, 1.37795, 1.41732, 0.94488, 0.0, 0.0, 0.1, 10000.0]);
+
+var startTime;
+
+// screen aspect ratio, width / height
+var aspect;
+
+// postprocessing chain
+var effects = {sequence: false};
+
+// view and projection matrix
+var viewMatrix;
+var projectionMatrix;
+
+function waitLoad()
+{
+	if (loader.progress < 1)
+	{
+		// continue waiting...
+		requestAnimFrame(waitLoad);
+		
+		gl.clearColor(0, 0, 0, 1);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+		
+		gl.enable(gl.SCISSOR_TEST);
+		var w = window.innerWidth;
+		var h = window.innerHeight;
+		gl.scissor(0, h / 2 - 10, w * loader.progress, 20);
+		gl.clearColor(1, 1, 1, 1);
+		gl.clear(gl.COLOR_BUFFER_BIT);
+		gl.disable(gl.SCISSOR_TEST);
+	}
+	else
+	{
+		// loading finished
+		
+		// install event listeners
+		input.move = function(dx, dy)
+		{
+			// rotate camera
+			cameraRotateX += dy * 2.5;
+			cameraRotateY -= dx * 2.5;		
+		};
+		input.scroll = function(dx, dy)
+		{			
+			// change distance of camera
+			cameraDistance = Math.min(Math.max(cameraDistance / Math.exp(dy / 9), 1.94555569), 19455.5566);
+		}
+		input.zoomRotate = function(zoom, rotate)
+		{
+			// change distance of camera
+			cameraDistance = Math.min(Math.max(cameraDistance / zoom, 1.94555569), 19455.5566);
+		}
+
+		// start
+		startTime = new Date().getTime() / 1000.0 - 0;
+		tick();
+	}
+}
+
+function tick()
+{
+	requestAnimFrame(tick);
+	drawScene();
+}
+
+function drawScene()
+{
+	// get time
+	var time = new Date().getTime() / 1000.0 - startTime;
+	if (time > 6.666666666666667)
+	{
+		var length = 6.666666666666667 - 0;
+		time -= length;
+		startTime += length;
+	}
+	
+	// set time
+	sceneTime[0] = time;
+	
+	// update the group (recalculates scene graph and also cameraMatrix and cameraProjection)
+	group.update();
+	
+	// calculate view matrix from camera parameters
+	control.cameraY(cameraTargetX, cameraTargetY, cameraTargetZ, cameraRotateX, cameraRotateY, 0,
+		cameraDistance, viewMatrix);
+
+	// calculate projection matrix from camera projection parameters and screen aspect ratio
+	engine.matrix4x4Projection(cameraProjection, aspect, projectionMatrix);
+
+	// toggle sequence flag and render postprocessing chain onto default render target
+	effects.pipeline.apply(null, effects.sequence = !effects.sequence);
+}
+
+function resize()
+{
+	var width = canvas.offsetWidth;
+	var height = canvas.offsetHeight;
+	canvas.width = width;
+	canvas.height = height;
+
+	// resize render target of post effect
+	aspect = effects.pipeline.resize(0, 0, width, height);
+}
+
+function webGLStart()
+{
+	// get canvas
+	canvas = document.getElementById("c");
+
+	// get webgl context
+	gl = WebGLUtils.setupWebGL(canvas);
+
+	// create mouse/touch input handler
+	input = new control.Input(canvas);
+
+	// create renderer with given number of pre-allocated render jobs
+	renderer = new engine.Renderer(50);
+	
+	// create a render group
+	group = renderer.createGroup();
+
+	// create postprocessing chain and set view and projection matrix
+	effects.clear = new effect.ClearColorDepth({color : [0.0, 0.0, 0.0, 1]});
+	effects.render = new effect.Render(effects.clear, group, 'color');
+	viewMatrix = effects.render.viewMatrix;
+	projectionMatrix = effects.render.projectionMatrix;
+	effects.fxaa = new effect.FXAA(effects.render);
+	effects.glow = new effect.Glow(effects.fxaa);
+	effects.pipeline = effects.glow;
+
+	// set resize handler
+	window.onresize = resize;
+	resize();
+	
+	// load scene container that is embedded into this html via script tag.
+	// pass 0 or 1 as 4th parameter to select first or second texture set
+	loader = engine.loadEmbedded(cubey, '', 'cubey', 0, function (container)
+	{
+		// loading finished: check if successful. possible errors are
+		//   3: maximum number of textures is exceeded
+		//   4: maximum number of vertex textures is exceeded
+		//   5: float textures are not supported
+		//   4xx: HTTP error
+		if (this.status != 0)
+		{
+			if (this.status == 3)
+				alert('WebGL error: more than ' + gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS) + ' texture units not supported');
+			else if (this.status == 4)
+				alert('WebGL error: more than ' + gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) + ' vertex texture units not supported');
+			else if (this.status == 5)
+				alert('WebGL error: float textures not supported');
+			else if ((this.status / 100 | 0) == 4)
+				alert('HTTP error: ' + this.status);
+		}
+
+		// create scene
+		scene = container.createScene("cubey", group);
+		sceneTime = scene.getFloatVector("time", 1);
+
+	});
+
+	// wait until loading is finished
+	waitLoad();
+}
+
+</script>
+</head>
+<body onload="webGLStart();">
+	<canvas id="c"></canvas>
+</body>
+</html>
+
